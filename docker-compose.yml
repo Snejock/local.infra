@@ -1,0 +1,13 @@
+include:
+  - path: ./compose/grafana/docker-compose.yml
+  - path: ./compose/node-exporter/docker-compose.yml
+  - path: ./compose/prometheus/docker-compose.yml
+
+networks:
+  core-net:
+    driver: bridge
+    name: core-net
+
+  chome-net:
+    external: true
+    name: chome-net

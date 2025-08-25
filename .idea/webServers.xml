@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cbc3cafa-1e2d-4bbd-a896-2d66039445ce" name="odin">
+        <fileTransfer accessType="SFTP" host="odin" port="22" sshConfigId="57597691-19e7-4cab-89a6-23da8cffc020" sshConfig="core@odin:22">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

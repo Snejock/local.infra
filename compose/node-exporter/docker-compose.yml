@@ -1,0 +1,14 @@
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: infra_node-exporter
+    restart: unless-stopped
+    networks:
+      - core-net
+      - chome-net
+    ports:
+      - '39100:9100'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
