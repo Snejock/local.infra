@@ -4,7 +4,9 @@ services:
     container_name: infra_grafana
     restart: unless-stopped
     ports:
-      - '23000:3000'
+      - '33000:3000'
     networks:
       - core-net
       - chome-net
+    volumes:
+      - /mnt/data/projects/infra/volumes/grafana:/var/lib/grafana

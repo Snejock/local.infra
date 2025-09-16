@@ -61,16 +61,15 @@ scrape_configs:
 
   - job_name: 'node-exporter'
     static_configs:
-      - targets: ['node-exporter:9100']
+      - targets: ['host.docker.internal:9100']
     relabel_configs:
       - source_labels: []
         target_label: instance
         replacement: 'odin'
       - source_labels: [__address__]
         target_label: __address__
-        replacement: 'node-exporter:9100'
+        replacement: 'host.docker.internal:9100'
 ```
-*   `node-exporter:9100` — это внутренний адрес для Prometheus в сети `core-net`. Он сможет найти `node-exporter` по имени сервиса.
 
 ## Развертывание
 
@@ -100,7 +99,7 @@ scrape_configs:
 | Сервис | Адрес |
 | :--- | :--- |
 | **Prometheus** | `http://<IP-адрес-сервера>:39090` |
-| **Grafana** | `http://<IP-адрес-сервера>:23000` |
+| **Grafana** | `http://<IP-адрес-сервера>:33000` |
 | **Node Exporter** | `http://<IP-адрес-сервера>:39100/metrics`|
 
 ## Первоначальная настройка Grafana
@@ -108,7 +107,7 @@ scrape_configs:
 При первом входе в Grafana потребуется быстрая настройка.
 
 1.  **Войдите в Grafana:**
-    *   Откройте `http://<IP-адрес-сервера>:23000`.
+    *   Откройте `http://<IP-адрес-сервера>:33000`.
     *   Логин по умолчанию: `admin`
     *   Пароль по умолчанию: `admin`
     *   Grafana попросит вас сменить пароль.
