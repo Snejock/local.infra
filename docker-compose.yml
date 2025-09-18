@@ -3,6 +3,7 @@ include:
   - path: ./compose/node-exporter/docker-compose.yml
   - path: ./compose/prometheus/docker-compose.yml
   - path: ./compose/portainer/docker-compose.yml
+  - path: ./compose/cadvisor/docker-compose.yml
 
 networks:
   core-net:

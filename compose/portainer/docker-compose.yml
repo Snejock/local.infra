@@ -3,12 +3,12 @@ services:
     container_name: infra_portainer
     image: portainer/portainer-ce:latest
     restart: always
-    ports:
-      - '38000:8000'
-      - '39443:9443'
     networks:
       - core-net
       - chome-net
+    ports:
+      - '38000:8000'
+      - '39443:9443'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/data/projects/infra/volumes/portainer:/data

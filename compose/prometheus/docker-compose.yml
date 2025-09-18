@@ -5,11 +5,18 @@ services:
     restart: unless-stopped
     networks:
       - core-net
-      - chome-net
+    ports:
+      - '39090:9090'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:
-      - /mnt/data/projects/infra/volumes/prometheus:/etc/prometheus
+      - /mnt/data/projects/infra/volumes/prometheus:/etc/prometheus:ro
+      - /mnt/data/projects/infra/volumes/prometheus/data:/opt/bitnami/prometheus/data
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=30d'  # Ограничивает хранение данных 30 днями
+    healthcheck:
+      test: [ 'CMD', 'wget', '-qO-', 'http://localhost:9090/-/healthy' ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
