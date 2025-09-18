@@ -15,8 +15,10 @@
 | Сервис | Файл конфигурации | Описание |
 | :--- | :--- | :--- |
 | **Prometheus** | `compose/prometheus/docker-compose.yml` | Собирает и хранит метрики. |
-| **Node Exporter** | `compose/node-exporter/docker-compose.yml` | Собирает метрики хост-машины (CPU, RAM, диск). |
-| **Grafana** | `compose/grafana/docker-compose.yml` | Платформа для визуализации метрик и построения дашбордов. |
+| **Node Exporter** | `compose/node-exporter/docker-compose.yml` | Собирает метрики хост-машины (CPU, RAM, диск). Работает в режиме host network. |
+| **cAdvisor** | `compose/cadvisor/docker-compose.yml` | Экспортирует метрики Docker-контейнеров для Prometheus (внутренний сервис без внешнего порта). |
+| **Grafana** | `compose/grafana/docker-compose.yml` | Визуализация метрик и дашборды. |
+| **Portainer CE** | `compose/portainer/docker-compose.yml` | Веб-управление Docker (опционально, но включено). |
 
 ## Предварительные требования
 
@@ -66,9 +68,14 @@ scrape_configs:
       - source_labels: []
         target_label: instance
         replacement: 'odin'
-      - source_labels: [__address__]
-        target_label: __address__
-        replacement: 'host.docker.internal:9100'
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    relabel_configs:
+      - source_labels: []
+        target_label: instance
+        replacement: 'odin'
 ```
 
 ## Развертывание
@@ -90,7 +97,7 @@ scrape_configs:
     ```bash
     docker compose ps
     ```
-    Все три сервиса должны иметь статус `Up` или `running`.
+    Все сервисы (Prometheus, Grafana, Node Exporter, cAdvisor, Portainer) должны иметь статус `Up` или `running`.
 
 ## Доступ к сервисам
 
@@ -100,7 +107,9 @@ scrape_configs:
 | :--- | :--- |
 | **Prometheus** | `http://<IP-адрес-сервера>:39090` |
 | **Grafana** | `http://<IP-адрес-сервера>:33000` |
-| **Node Exporter** | `http://<IP-адрес-сервера>:39100/metrics`|
+| **Portainer** | `https://<IP-адрес-сервера>:39443` (или Edge Agent: `http://<IP-адрес-сервера>:38000`) |
+| **Node Exporter** | `http://<IP-адрес-сервера>:9100/metrics` (host network, без проброса порта) |
+| **cAdvisor** | без внешнего порта (используется Prometheus по адресу `cadvisor:8080` внутри сети) |
 
 ## Первоначальная настройка Grafana
 
