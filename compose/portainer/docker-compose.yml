@@ -2,7 +2,7 @@ services:
   portainer:
     container_name: infra_portainer
     image: portainer/portainer-ce:latest
-    restart: always
+    restart: unless-stopped
     networks:
       - core-net
       - chome-net
@@ -11,5 +11,8 @@ services:
       - '39443:9443'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/data/projects/infra/volumes/portainer:/data
+      - portainer:/data
     command: -H unix:///var/run/docker.sock
+
+volumes:
+  portainer:
